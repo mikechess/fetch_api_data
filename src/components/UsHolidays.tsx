@@ -3,9 +3,9 @@ import { apiLinks } from '../api_links'
 import styled from 'styled-components'
 
 interface apiProps {
-    name:string;
-    date:string;
-    countryCode:string;
+  name: string
+  date: string
+  countryCode: string
 }
 
 const UsHolidays = () => {
@@ -26,29 +26,43 @@ const UsHolidays = () => {
     }
   }
 
-  return <HolidaysWrapper>
-    {apiData && apiData.length > 0 && (
-        <h1>Public Holidays {apiData[0].countryCode}</h1>
-    )}
+  //!function to change the date format
+  function changeDateFormat(dateString: string | number | Date) {
+    const options = {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+    } as Intl.DateTimeFormatOptions
+    const date = new Date(dateString)
+    return date.toLocaleDateString('en-US', options)
+  }
 
-    <table>
+  return (
+    <HolidaysWrapper>
+      {apiData && apiData.length > 0 && (
+        <h1>Public Holidays {apiData[0].countryCode}</h1>
+      )}
+
+      <table>
         <thead>
-            <tr>
-                <th>Date</th>
-                <th>Holiday Type</th>
-            </tr>
+          <tr>
+            <th>Date</th>
+            <th>Holiday Type</th>
+          </tr>
         </thead>
 
         <tbody>
-            {apiData && apiData?.map((info, index) => (
-                <tr key={index}>
-                    <td>{info.date}</td>
-                    <td>{info.name}</td>
-                </tr>
+          {apiData &&
+            apiData?.map((info, index) => (
+              <tr key={index}>
+                <td>{changeDateFormat(info.date)}</td>
+                <td>{info.name}</td>
+              </tr>
             ))}
         </tbody>
-    </table>
-  </HolidaysWrapper>
+      </table>
+    </HolidaysWrapper>
+  )
 }
 
 export default UsHolidays
