@@ -1,6 +1,7 @@
 import React from 'react'
 import { apiLinks } from '../api_links'
 import styled from 'styled-components'
+import axios from 'axios'
 
 interface apiProps {
   name: string
@@ -16,14 +17,25 @@ const UsHolidays = () => {
   }, [])
 
   //*fetching the api data using async await
-  const fetchDataApi = async () => {
-    try {
-      const response = await fetch(apiLinks)
-      const data = await response.json()
-      setApiData(data)
-    } catch (error) {
-      console.log('Something Went Wrong Please Try Again', error)
-    }
+  //   const fetchDataApi = async () => {
+  //     try {
+  //       const response = await fetch(apiLinks)
+  //       const data = await response.json()
+  //       setApiData(data)
+  //     } catch (error) {
+  //       console.log('Something Went Wrong Please Try Again', error)
+  //     }
+  //   }
+
+  //!fetching the api data using axios
+  const fetchDataApi = () => {
+    axios.get(apiLinks).then((response) => {
+        const data = response.data
+        setApiData(data)
+    })
+    .catch((error) => {
+        console.error("Something Went Wrong", error);
+    })
   }
 
   //!function to change the date format
